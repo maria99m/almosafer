@@ -3,6 +3,7 @@ package AlmusaferWeb;
 import static org.testng.Assert.assertEquals;
 
 import java.time.Duration;
+import java.util.Random;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -63,9 +64,58 @@ public class myTestCases extends Parameters {
 		
 		WebElement theFooter = driver.findElement(By.tagName("footer"));
 		theFooter.findElement(By.cssSelector(".sc-bdVaJa.bxRSiR.sc-ekulBa.eYboXF")).isDisplayed();
-		  System.out.println();
+		  System.out.println(theFooter.findElement(By.cssSelector(".sc-bdVaJa.bxRSiR.sc-ekulBa.eYboXF")).isDisplayed());
 		
+		  assertEquals(theFooter.findElement(By.cssSelector(".sc-bdVaJa.bxRSiR.sc-ekulBa.eYboXF")).isDisplayed(), true);
 	}
+	
+	@Test(priority = 5)
+	public void checkHotelTabIsNotSelectedByDefault() {
+		
+		//بترجع string 
+		driver.findElement(By.id("uncontrolled-tab-example-tab-hotels")).getAttribute("aria-selected");
+		System.out.println(driver.findElement(By.id("uncontrolled-tab-example-tab-hotels")).getAttribute("aria-selected"));
+		  
+		assertEquals(driver.findElement(By.id("uncontrolled-tab-example-tab-hotels")).getAttribute("aria-selected"), "false");
+	
+	
+	}
+	
+	
+	@Test(priority = 6 , invocationCount = 8)
+	public void randoMethodToChangeTheLanguage() {
+		
+		Random rand = new Random();
+		int randomIndex = rand.nextInt(webSites.length);
+		 
+		driver.get(webSites[randomIndex]);
+		
+		// هيك بتاكد الويب سايت عربي مش انجليزي  
+		if(driver.getCurrentUrl().contains("ar")) {
+			
+			String ExpectedLang= "ar";
+			
+			String ActualLang = driver.findElement(By.tagName("html")).getAttribute("lang");
+			
+			assertEquals(ActualLang, ExpectedLang);
+			
+		}
+		
+		else {
+			
+            String ExpectedLang= "en";
+			
+			String ActualLang = driver.findElement(By.tagName("html")).getAttribute("lang");
+			
+			assertEquals(ActualLang, ExpectedLang);
+			
+			
+		}
+		
+	
+	
+	}
+	
 	
 	
 	
