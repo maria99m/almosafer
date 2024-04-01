@@ -3,6 +3,7 @@ package AlmusaferWeb;
 import static org.testng.Assert.assertEquals;
 
 import java.time.Duration;
+import java.time.LocalDate;
 import java.util.Random;
 
 import org.openqa.selenium.By;
@@ -31,7 +32,7 @@ public class myTestCases extends Parameters {
 	
 	}
 	
-	@Test(priority = 1)
+	@Test(priority = 1, enabled = false)
 	public void checkTheDefaultLanguageIsEnglish() {
 		
 		String ExpectedLanguage = "EN";
@@ -40,7 +41,7 @@ public class myTestCases extends Parameters {
 		assertEquals(Actuallanguage, ExpectedLanguage);
 	}
 	
-	@Test(priority = 2)
+	@Test(priority = 2, enabled = false)
 	public void checkTheDefaultCurrecnyIsSAR() {
 		
 		String Expectedcurrency = "SAR";
@@ -49,7 +50,7 @@ public class myTestCases extends Parameters {
 		assertEquals(ActualCurrency, Expectedcurrency);
 	}
 	
-	@Test(priority = 3)
+	@Test(priority = 3, enabled = false)
 	public void checkContactNumber() {
 		
 		String ExpectedContactNumber = "+96655400000";
@@ -59,7 +60,7 @@ public class myTestCases extends Parameters {
 		assertEquals(ExpectedContactNumber, ActualContactNumber);
 	}
 	
-	@Test(priority = 4)
+	@Test(priority = 4, enabled = false)
 	public void checkQitafLogo() {
 		
 		WebElement theFooter = driver.findElement(By.tagName("footer"));
@@ -69,7 +70,7 @@ public class myTestCases extends Parameters {
 		  assertEquals(theFooter.findElement(By.cssSelector(".sc-bdVaJa.bxRSiR.sc-ekulBa.eYboXF")).isDisplayed(), true);
 	}
 	
-	@Test(priority = 5)
+	@Test(priority = 5, enabled = false)
 	public void checkHotelTabIsNotSelectedByDefault() {
 		
 		//بترجع string 
@@ -81,8 +82,34 @@ public class myTestCases extends Parameters {
 	
 	}
 	
+	@Test(priority = 6)
+	public void checkDepatureDateAndReturnDate() {
+		
+		LocalDate today = LocalDate.now();
+		/*System.out.println(today.getDayOfMonth());
+		System.out.println(today.getDayOfYear());
+	    System.out.println(today.getDayOfWeek().getValue());*/
+		int expectedDepartureDate = today.plusDays(1).getDayOfMonth();
+		int expectedreturnDate = today.plusDays(2).getDayOfMonth();
+		
+		System.out.println(expectedDepartureDate);
+		System.out.println(expectedreturnDate);
+		// هيك بكتب css selector 
+		
+		int actualDepartureDate = Integer.parseInt(driver.findElement(By.cssSelector("div[class='sc-iHhHRJ sc-kqlzXE blwiEW'] span[class='sc-cPuPxo LiroG']"))
+			.getText());
+		
+		int ActualReturn = Integer.parseInt(driver.findElement(By.cssSelector("div[class='sc-iHhHRJ sc-OxbzP edzUwL'] span[class='sc-cPuPxo LiroG']"))
+				.getText());
+		
+		assertEquals(ActualReturn, expectedreturnDate);
+		
+		assertEquals(actualDepartureDate, expectedDepartureDate);
+		
 	
-	@Test(priority = 6 , invocationCount = 8)
+	}
+	
+	@Test(priority = 7 , invocationCount = 8 , enabled = false)
 	public void randoMethodToChangeTheLanguage() {
 		
 		Random rand = new Random();
@@ -115,6 +142,30 @@ public class myTestCases extends Parameters {
 	
 	
 	}
+	
+	@Test(priority = 8, enabled = true)
+	public void switchToHotelTab() {
+		
+	 //اول شي اكبس ع ال hotel tab 
+	WebElement HotelTab = driver.findElement(By.id("uncontrolled-tab-example-tab-hotels"));
+		HotelTab.click();
+	//بدنا ندخل input للاماكن والاوتيلات 
+   
+	// if arabic 
+   if(driver.getCurrentUrl().contains("ar")) {
+	   WebElement searchcityInputA = driver.findElement(By.cssSelector("input[placeholder='البحث عن فنادق أو وجهات']']"));
+	   searchcityInputA.sendKeys(CitiesInArabic);
+	   
+   }
+   else {
+	   
+	   WebElement searchcityInput = driver.findElement(By.cssSelector("input[placeholder='Search for hotels or places']"));
+	   searchcityInput.sendKeys(CitiesInEnglish);
+	   
+   }
+	}
+	
+	
 	
 	
 	

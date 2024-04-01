@@ -5,7 +5,8 @@
     <classes>
       <class name="AlmusaferWeb.myTestCases">
         <methods>
-          <include name="checkContactNumber"/>
+          <include name="checkDepatureDateAndReturnDate"/>
+          <include name="switchToHotelTab"/>
           <include name="mySstup"/>
           <include name="myPostTest"/>
         </methods>
